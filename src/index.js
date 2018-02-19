@@ -15,11 +15,11 @@ class Counter extends React.Component {
   }
   componentDidMount() {
     console.log(`${this.props.name} componentDidMount`);
-    //this.intervel = setInterval(this.increase, 1000);
+    this.intervel = setInterval(this.increase, 1000);
   }
   componentWillUnmount() {
     console.log(`${this.props.name} componentWillUnmount`);
-    //clearInterval(this.intervel);
+    clearInterval(this.intervel);
   }
 
   // Update
