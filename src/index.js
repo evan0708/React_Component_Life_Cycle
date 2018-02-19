@@ -7,16 +7,19 @@ class Counter extends React.Component {
     super(props);
     this.state = { count: 0}
     this.onClickBtn = this.onClickBtn.bind(this);
+    this.increase = this.increase.bind(this);
   }
-  // Mount
+  // Mount 
   componentWillMount() {
     console.log(`${this.props.name} componentWillMount`);
   }
   componentDidMount() {
     console.log(`${this.props.name} componentDidMount`);
+    //this.intervel = setInterval(this.increase, 1000);
   }
   componentWillUnmount() {
-    console.log(`${this.props.name} componentWillUnmount`); 
+    console.log(`${this.props.name} componentWillUnmount`);
+    //clearInterval(this.intervel);
   }
 
   // Update
@@ -40,6 +43,13 @@ class Counter extends React.Component {
       return { count: prevState.count + 1 };
     });
   }
+  increase() {
+    console.error('increase');
+    this.setState(prevState => {
+      console.log('to increase by 1');
+      return { count: prevState.count + 1 };
+    });
+  }
   render() {
     console.log(`${this.props.name} render`);
     const btnStyle = { 
@@ -58,8 +68,12 @@ class App extends React.Component {
   constructor(props) {
     console.log(`${props.name} constructor`);
     super(props);
-    this.state = { isBig: false };
+    this.state = { 
+      isBig: false, 
+      showCounter: true
+    };
     this.toggleSize = this.toggleSize.bind(this);
+    this.toggleCounter = this.toggleCounter.bind(this);
   }
   // Mount
   componentWillMount() {
@@ -91,16 +105,24 @@ class App extends React.Component {
       return { isBig : !prevState.isBig };
     });
   }
+  toggleCounter() {
+    this.setState(prevState => {
+      return { showCounter: !prevState.showCounter}
+    });
+  }
   render() {
     console.log(`${this.props.name} render`);
     return (
       <div>
         <div>This is App</div>
         <button onClick={this.toggleSize}>Toggle Font</button>
-        <div>
-          <Counter isLargeSize={this.state.isBig} name="LEFT"/>
-          <Counter isLargeSize={this.state.isBig} name="RIGHT"/>
-        </div>
+        <button onClick={this.toggleCounter}>Toggle Counter</button>
+        {this.state.showCounter ? (
+          <div>
+            <Counter isLargeSize={this.state.isBig} name="LEFT" />
+            <Counter isLargeSize={this.state.isBig} name="RIGHT" />
+          </div>
+        ) : null}
       </div>
     );
   }
